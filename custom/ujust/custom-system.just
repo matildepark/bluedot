@@ -5,30 +5,6 @@
 ## Example system configuration commands
 ## These are simplified examples adapted from Bluefin
 
-# Run a system benchmark (requires stress-ng from Homebrew)
-[group('System')]
-benchmark:
-    #!/usr/bin/env bash
-    source /usr/lib/ujust/ujust.sh
-    if ! type -P "stress-ng" &>/dev/null ; then
-        echo "stress-ng is not installed."
-        if command -v brew &>/dev/null; then
-            if gum confirm "Install stress-ng via Homebrew?" ; then
-                brew install stress-ng
-                brew link stress-ng
-            else
-                exit 0
-            fi
-        else
-            echo "Please install stress-ng to run benchmarks."
-            exit 1
-        fi
-    fi
-    echo 'Running a 1 minute benchmark...'
-    pushd $(mktemp -d) > /dev/null
-    stress-ng --matrix 0 -t 1m --times
-    popd > /dev/null
-
 # Configure docker and libvirt groups for development
 [group('System')]
 configure-dev-groups:
@@ -46,28 +22,6 @@ configure-dev-groups:
     done
 
     echo "Groups configured. Log out and back in for changes to take effect."
-
-# Example toggle command with user choice
-[group('System')]
-toggle-example-feature:
-    #!/usr/bin/bash
-    source /usr/lib/ujust/ujust.sh
-    echo "This is an example toggle command."
-    echo "Current status: [check your status here]"
-    OPTION=$(Choose "Enable" "Disable" "Cancel")
-    case "$OPTION" in
-        "Enable")
-            echo "Enabling feature..."
-            # Add your enable logic here
-            ;;
-        "Disable")
-            echo "Disabling feature..."
-            # Add your disable logic here
-            ;;
-        "Cancel")
-            echo "No changes made."
-            ;;
-    esac
 
 # Clean up container images and volumes
 [group('Maintenance')]
@@ -90,3 +44,67 @@ update-and-reboot:
     else
         echo "Reboot later to apply updates."
     fi
+
+[group('distrobox')]
+distrobox-create-node-dev:
+    #!/usr/bin/bash
+    echo "Creating node-dev distrobox container..."
+    distrobox create --name node-dev --image fedora:latest \
+      --home ~/.local/share/distrobox/node-dev \
+      --additional-flags "--volume $HOME/git:/git:rslave"
+    echo "Container created successfully!"
+
+[group('distrobox')]
+distrobox-setup-node-dev:
+    #!/usr/bin/bash
+    echo "Setting up NVM and Node.js in node-dev container..."
+    distrobox enter node-dev -- bash -c '
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+        nvm install 24
+        distrobox-export --bin $(which node)
+        distrobox-export --bin $(which npm)
+    '
+
+[group('distrobox')]
+setup-node-devenv:
+    #!/usr/bin/bash
+    echo "Bootstrapping node-dev container..."
+    just distrobox-create-node-dev
+    just distrobox-setup-node-dev
+    echo "Bootstrap complete!"
+
+[group('distrobox')]
+distrobox-create-ruby-dev:
+    #!/usr/bin/bash
+    echo "Creating ruby-dev distrobox container..."
+    distrobox create --name ruby-dev --image fedora:latest \
+        --home ~/.local/share/distrobox/ruby-dev \
+        --additional-flags "--volume $HOME/git:/git:rslave"
+    echo "Container created successfully!"
+
+[group('distrobox')]
+distrobox-setup-ruby-dev:
+    #!/usr/bin/bash
+    echo "Setting up rbenv..."
+    distrobox enter ruby-dev -- bash -c '
+        sudo dnf install rbenv ruby-build
+        rbenv install 3.4.8 && rbenv global 3.4.8
+        distrobox-export --bin $(which ruby)
+    '
+[group('distrobox')]
+setup-ruby-devenv:
+    #!/usr/bin/bash
+    echo "Bootstrapping ruby-dev container..."
+    just distrobox-create-ruby-dev
+    just distrobox-setup-ruby-dev
+    echo "Bootstrap complete!"
+
+[group('distrobox')]
+setup-devenvs:
+    #!/usr/bin/bash
+    echo 'Bootstrapping dev envs...'
+    just setup-node-devenv
+    just setup-ruby-devenv
+    echo 'All bootstraps complete.'

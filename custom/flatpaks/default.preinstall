@@ -3,11 +3,8 @@
 # Format: INI file with [Flatpak Preinstall NAME] groups
 # See: https://docs.flatpak.org/en/latest/flatpak-command-reference.html#flatpak-preinstall
 
-# Web Browsers
+# Web Browser
 [Flatpak Preinstall org.mozilla.firefox]
-Branch=stable
-
-[Flatpak Preinstall org.mozilla.Thunderbird]
 Branch=stable
 
 # GNOME Core Applications
@@ -41,9 +38,6 @@ Branch=stable
 [Flatpak Preinstall org.gnome.Loupe]
 Branch=stable
 
-[Flatpak Preinstall org.gnome.Maps]
-Branch=stable
-
 [Flatpak Preinstall org.gnome.NautilusPreviewer]
 Branch=stable
 
@@ -69,10 +63,10 @@ Branch=stable
 Branch=stable
 
 # Graphics & Media
-[Flatpak Preinstall com.github.PintaProject.Pinta]
+[Flatpak Preinstall org.audacityteam.Audacity]
 Branch=stable
 
-[Flatpak Preinstall com.github.rafostar.Clapper]
+[Flatpak Preinstall org.videolan.VLC]
 Branch=stable
 
 # System Utilities
@@ -91,14 +85,8 @@ Branch=stable
 [Flatpak Preinstall io.missioncenter.MissionCenter]
 Branch=stable
 
-[Flatpak Preinstall io.gitlab.adhami3310.Impression]
-Branch=stable
-
 # Universal Blue Specific
 [Flatpak Preinstall com.ranfdev.DistroShelf]
-Branch=stable
-
-[Flatpak Preinstall io.github.kolunmi.Bazaar]
 Branch=stable
 
 [Flatpak Preinstall page.tesk.Refine]
@@ -112,3 +100,25 @@ IsRuntime=true
 [Flatpak Preinstall org.gtk.Gtk3theme.adw-gtk3-dark]
 Branch=3.22
 IsRuntime=true
+
+# My apps
+[Flatpak Preinstall com.discordapp.Discord]
+Branch=stable
+
+[Flatpak Preinstall com.valvesoftware.Steam]
+Branch=stable
+
+[Flatpak Preinstall io.github.Foldex.AdwSteamGtk]
+Branch=stable
+
+[Flatpak Preinstall io.itch.itch]
+Branch=stable
+
+[Flatpak Preinstall dev.zed.Zed]
+Branch=stable
+
+[Flatpak Preinstall md.obsidian.Obsidian]
+Branch=stable
+
+[Flatpak Preinstall info.mumble.Mumble]
+Branch=stable

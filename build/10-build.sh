@@ -32,10 +32,20 @@ echo "::endgroup::"
 echo "::group:: Install Packages"
 
 # Install packages using dnf5
-# Example: dnf5 install -y tmux
+dnf5 install -y git bootc make gcc fastfetch gnome-tweaks mesa-libGLU screen vim samba gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell
+dnf5 -y remove firefox fedora-bookmarks gnome-extensions-app firefox-langpacks fedora-chromium-config fedora-chromium-config-gnome gnome-shell-extension-background-logo
 
-# Example using COPR with isolated pattern:
-# copr_install_isolated "ublue-os/staging" package-name
+# Tailscale
+dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+dnf config-manager setopt tailscale-stable.enabled=0
+dnf -y install --enablerepo='tailscale-stable' tailscale
+
+# Bluefin patches fwupd, so I guess I will too
+dnf -y copr enable ublue-os/staging
+dnf -y copr disable ublue-os/staging
+dnf -y swap \
+    --repo=copr:copr.fedorainfracloud.org:ublue-os:staging \
+    fwupd fwupd
 
 echo "::endgroup::"
 
@@ -43,6 +53,7 @@ echo "::group:: System Configuration"
 
 # Enable/disable systemd services
 systemctl enable podman.socket
+systemctl enable tailscaled.service
 # Example: systemctl mask unwanted-service
 
 echo "::endgroup::"
