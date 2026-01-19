@@ -51,7 +51,9 @@ distrobox-create-node-dev:
     echo "Creating node-dev distrobox container..."
     distrobox create --name node-dev --image fedora:latest \
       --home ~/.local/share/distrobox/node-dev \
-      --additional-flags "--volume $HOME/git:/git:rslave"
+      --volume $HOME/git:/git:rslave \
+      --volume $HOME/.ssh:$HOME/.ssh:ro \
+      --volume $HOME/.gitconfig:$HOME/.gitconfig:ro
     echo "Container created successfully!"
 
 [group('distrobox')]
@@ -81,7 +83,9 @@ distrobox-create-ruby-dev:
     echo "Creating ruby-dev distrobox container..."
     distrobox create --name ruby-dev --image fedora:latest \
         --home ~/.local/share/distrobox/ruby-dev \
-        --additional-flags "--volume $HOME/git:/git:rslave"
+        --volume $HOME/git:/git:rslave \
+        --volume $HOME/.ssh:$HOME/.ssh:ro \
+        --volume $HOME/.gitconfig:$HOME/.gitconfig:ro
     echo "Container created successfully!"
 
 [group('distrobox')]
@@ -93,6 +97,7 @@ distrobox-setup-ruby-dev:
         rbenv install 3.4.8 && rbenv global 3.4.8
         distrobox-export --bin $(which ruby)
     '
+
 [group('distrobox')]
 setup-ruby-devenv:
     #!/usr/bin/bash
