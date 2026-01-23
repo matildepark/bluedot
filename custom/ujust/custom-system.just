@@ -61,11 +61,11 @@ distrobox-setup-node-dev:
     #!/usr/bin/bash
     echo "Setting up NVM and Node.js in node-dev container..."
     distrobox enter node-dev -- bash -c '
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-        export NVM_DIR="$HOME/.nvm"
-        [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-        nvm install 24
-        distrobox-export --bin $(which node)
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash && \
+        export NVM_DIR="$HOME/.nvm" && \
+        [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && \
+        nvm install 24 && \
+        distrobox-export --bin $(which node) && \
         distrobox-export --bin $(which npm)
     '
 
@@ -93,8 +93,8 @@ distrobox-setup-ruby-dev:
     #!/usr/bin/bash
     echo "Setting up rbenv..."
     distrobox enter ruby-dev -- bash -c '
-        sudo dnf install rbenv ruby-build
-        rbenv install 3.4.8 && rbenv global 3.4.8
+        sudo dnf install -y rbenv ruby-build && \
+        rbenv install 3.4.8 && rbenv global 3.4.8 && \
         distrobox-export --bin $(which ruby)
     '
 
@@ -113,3 +113,4 @@ setup-devenvs:
     just setup-node-devenv
     just setup-ruby-devenv
     echo 'All bootstraps complete.'
+
