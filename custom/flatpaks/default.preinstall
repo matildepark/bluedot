@@ -117,8 +117,20 @@ Branch=stable
 [Flatpak Preinstall dev.zed.Zed]
 Branch=stable
 
+[Flatpak Preinstall com.vscodium.codium]
+Branch=stable
+
 [Flatpak Preinstall md.obsidian.Obsidian]
 Branch=stable
 
 [Flatpak Preinstall info.mumble.Mumble]
+Branch=stable
+
+[Flatpak Preinstall net.lutris.Lutris]
+Branch=stable
+
+[Flatpak Preinstall org.gnome.Evolution]
+Branch=stable
+
+[Flatpak Preinstall org.signal.Signal]
 Branch=stable
