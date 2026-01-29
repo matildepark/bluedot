@@ -14,4 +14,4 @@ My goal is to keep my base system and home folder clean while making it more int
 ## TODO
 
 - Firefox configuration (remove bookmarks, set flags to remove sponsored sites, telemetry, AI sidebars, add UBlock and Kagi)
-- Add "Logo Menu" and "V-Shell" extensions to the build
+- Add "Logo Menu" extension to the build

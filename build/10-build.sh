@@ -32,7 +32,7 @@ echo "::endgroup::"
 echo "::group:: Install Packages"
 
 # Install packages using dnf5
-dnf5 install -y git bootc make gcc fastfetch gnome-tweaks mesa-libGLU screen vim samba gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell
+dnf5 install -y git bootc make gcc fastfetch gnome-tweaks mesa-libGLU screen vim samba gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell gnome-shell-extension-vertical-workspaces gnome-shell-theme-yaru
 dnf5 -y remove firefox fedora-bookmarks gnome-extensions-app firefox-langpacks fedora-chromium-config fedora-chromium-config-gnome gnome-shell-extension-background-logo
 
 # Tailscale
