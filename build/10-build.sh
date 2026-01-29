@@ -47,6 +47,18 @@ dnf -y swap \
     --repo=copr:copr.fedorainfracloud.org:ublue-os:staging \
     fwupd fwupd
 
+# Patched flatpak - monitor issue for removal:
+# https://github.com/projectbluefin/finpilot/issues/49
+
+if [[ "$(rpm -E %fedora)" -ge "42" ]]; then
+  dnf -y copr enable ublue-os/flatpak-test
+  dnf -y copr disable ublue-os/flatpak-test
+  dnf -y --repo=copr:copr.fedorainfracloud.org:ublue-os:flatpak-test swap flatpak flatpak
+  dnf -y --repo=copr:copr.fedorainfracloud.org:ublue-os:flatpak-test swap flatpak-libs flatpak-libs
+  dnf -y --repo=copr:copr.fedorainfracloud.org:ublue-os:flatpak-test swap flatpak-session-helper flatpak-session-helper
+  dnf -y --repo=copr:copr.fedorainfracloud.org:ublue-os:flatpak-test install flatpak-debuginfo flatpak-libs-debuginfo flatpak-session-helper-debuginfo
+fi
+
 echo "::endgroup::"
 
 echo "::group:: System Configuration"
