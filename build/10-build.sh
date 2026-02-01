@@ -31,9 +31,13 @@ echo "::endgroup::"
 
 echo "::group:: Install Packages"
 
+# Terra
+dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
+dnf5 config-manager setopt terra.enabled=1
+
 # Install packages using dnf5
-dnf5 install -y bootc make gcc fastfetch gnome-tweaks mesa-libGLU screen vim samba gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell gnome-shell-extension-vertical-workspaces gnome-shell-theme-yaru
-dnf5 -y remove firefox fedora-bookmarks gnome-extensions-app firefox-langpacks fedora-chromium-config fedora-chromium-config-gnome gnome-shell-extension-background-logo
+dnf5 install -y bootc make gcc fastfetch mesa-libGLU screen vim samba niri noctalia-shell ghostty nautilus gdm gnome-keyring
+dnf5 -y remove firefox fedora-bookmarks gnome-extensions-app firefox-langpacks fedora-chromium-config fedora-chromium-config-gnome
 
 # Tailscale
 dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
@@ -66,6 +70,7 @@ echo "::group:: System Configuration"
 # Enable/disable systemd services
 systemctl enable podman.socket
 systemctl enable tailscaled.service
+systemctl enable gdm.service
 # Example: systemctl mask unwanted-service
 
 echo "::endgroup::"
