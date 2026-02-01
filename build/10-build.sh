@@ -33,7 +33,6 @@ echo "::group:: Install Packages"
 
 # Terra
 dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
-dnf5 config-manager setopt terra.enabled=1
 
 # Install packages using dnf5
 dnf5 install -y bootc make gcc fastfetch mesa-libGLU screen vim samba niri noctalia-shell ghostty nautilus gdm gnome-keyring
