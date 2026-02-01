@@ -35,7 +35,7 @@ echo "::group:: Install Packages"
 dnf install -y --nogpgcheck --repofrompath 'terra,https://repos.fyralabs.com/terra$releasever' terra-release
 
 # Install packages using dnf5
-dnf5 install -y bootc make gcc fastfetch mesa-libGLU screen vim samba niri noctalia-shell ghostty nautilus gdm gnome-keyring grim slurp
+dnf5 install -y bootc make gcc fastfetch mesa-libGLU screen vim samba niri noctalia-shell ghostty nautilus gdm gnome-keyring grim slurp ptyxis
 dnf5 -y remove firefox fedora-bookmarks gnome-extensions-app firefox-langpacks fedora-chromium-config fedora-chromium-config-gnome
 
 # Tailscale
