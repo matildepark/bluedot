@@ -66,6 +66,7 @@ echo "::group:: System Configuration"
 # Enable/disable systemd services
 systemctl enable podman.socket
 systemctl enable tailscaled.service
+systemctl enable sshd.service
 # Example: systemctl mask unwanted-service
 
 echo "::endgroup::"
