@@ -32,8 +32,13 @@ echo "::endgroup::"
 echo "::group:: Install Packages"
 
 # Install packages using dnf5
-dnf5 install -y bootc make gcc fastfetch gnome-tweaks mesa-libGLU screen vim samba gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell gnome-shell-extension-vertical-workspaces gnome-shell-theme-yaru podman-compose podman-tui rocm-hip rocm-smi rocm-opencl
+dnf5 install -y bootc make gcc fastfetch gnome-tweaks mesa-libGLU screen vim samba gnome-shell-extension-caffeine gnome-shell-extension-blur-my-shell gnome-shell-extension-vertical-workspaces gnome-shell-theme-yaru rocm-hip rocm-smi rocm-opencl
 dnf5 -y remove firefox fedora-bookmarks gnome-extensions-app firefox-langpacks fedora-chromium-config fedora-chromium-config-gnome gnome-shell-extension-background-logo
+
+# Docker
+dnf config-manager addrepo --from-repofile=https://download.docker.com/linux/fedora/docker-ce.repo
+dnf config-manager setopt docker-ce-stable.enabled=0
+dnf -y install --enablerepo='docker-ce-stable' docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 # Tailscale
 dnf config-manager addrepo --from-repofile=https://pkgs.tailscale.com/stable/fedora/tailscale.repo
@@ -78,7 +83,7 @@ echo "::endgroup::"
 echo "::group:: System Configuration"
 
 # Enable/disable systemd services
-systemctl enable podman.socket
+systemctl enable docker.service
 systemctl enable tailscaled.service
 systemctl enable sshd.service
 # Example: systemctl mask unwanted-service
